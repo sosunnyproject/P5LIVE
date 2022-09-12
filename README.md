@@ -7,7 +7,7 @@
 - libs/leap-motion
 
 # P5LIVE
-v 1.3.6  
+v 1.4.1  
 cc [teddavis.org](http://teddavis.org) – 2019 - 2021  
 p5.js collaborative live-coding vj environment!
 
@@ -29,6 +29,10 @@ p5.js collaborative live-coding vj environment!
 - `CTRL + S` » save png [ + code ]
 - `CTRL + I` » 720*720px popup for screen-recording
 - `CTRL + 1, 2, 3...0` » jump between first 10 sketches
+
+Beta shortcuts
+- `CTRL + SHIFT + ⇡⇣` » jump to previous/next sketch  
+- `CTRL + SHIFT + DELETE` » delete current sketch
 
 
 ## SAVING
@@ -77,7 +81,7 @@ Details below to run via python webserver or nodejs/npm.
 <img src="includes/images/menu-p5live-export-2.png" width="220px">
 
 - <img class="svg" src="includes/icons/camera.svg" height="12px"> Save .png, `CTRL + S`, exports image [+ code if active in settings].  
-- <img class="svg" src="includes/icons/link.svg" height="12px"> Share code as URL link (refers to online version at p5live.org).
+- <img class="svg" src="includes/icons/link.svg" height="12px"> Share code as URL (links to online version at p5live.org).
 - <img class="svg" src="includes/icons/file-text.svg" height="12px"> Save .html, export single page website (re-link paths to any offline assets).
 
 ### SETTINGS PANEL  
@@ -102,6 +106,7 @@ Details below to run via python webserver or nodejs/npm.
 - [x] Multi-P5LIVE Warning, if P5LIVE opened multiple times (otherwise sync issues). 
 - [x] Timestamp Exports, adds _YYYYMMDD_HHMMSS to filenames.  
 - [x] Backup COCODING, Autosave session code if server connection lost.  
+- [x] Check Updates, ping Github for updates to OFFLINE mode (only visible offline).  
 - Code Size, `15pt` adjust font size of editor.  
 - Code Background, [x] toggle + set color behind lines of code.  
 - Code Theme, [Green on Black], select custom styling of editor.
@@ -118,7 +123,12 @@ Customize keyboard shortcuts by clicking on name + press a new key combination.
 <img src="includes/images/menu-cocoding-inactive-7.png" width="220px">  
 
 See dedicated COCODING section below for details.
-  
+
+### RECODING PANEL
+<img src="includes/images/menu-recoding-inactive-1.png" width="220px">  
+
+See dedicated RECODING section below for details.
+
 ### SKETCHES PANEL 
 <img src="includes/images/menu-sketches-7.png" width="220px">  
 
@@ -244,19 +254,28 @@ let libs = [
 ];
 ```
 
-### HYDRA
-[hydra-synth](https://github.com/ojack/hydra-synth) has been added to the P5LIVE libs and extra support has been added for writing hydra code in the global space. After importing the library, any changes made within the following tags:  
+#### <span style="text-decoration:line-through">p5.sound</span>
+To exclude `p5.sound` library (ie. for Tone.js), add `// no p5sound` anywhere in your code.  
+See `_audio_gen_tonejs` demo for an example.
+
+### SANDBOX
+Sometimes you want to adjust global JS code that won't cause p5.js to recompile, ie. [hydra-synth](https://github.com/ojack/hydra-synth). To do so, write such code within 2x `// sandbox` comments. Any changes within that space are processed using `eval()`, however won't trigger a P5LIVE hardCompile.
+
+#### HYDRA
+The main use case for this, is [hydra-synth](https://github.com/ojack/hydra-synth), which is included within the P5LIVE libs.  
+After importing the library, any changes made within the following tags:  
 
 ```js
-// hydraSandbox
+// sandbox
 osc().out() // ... your hydra code here
-// hydraSandbox
+// sandbox
 ```
-– will only update the hydra-synth engine and won't effect p5 recompiles! Be sure to see DEMOS » _HYDRA for details and various ways of using it in your sketches.
+– will only update the hydra-synth engine and won't effect p5.js recompiles!  
+See `DEMOS » _HYDRA` for additional examples.
 
 ### ASSETS
 Loading custom assets (image/font/obj/audio/...):  
- 
+
 - Remotely from a [CORS](https://enable-cors.org/resources.html) friendly server ([imgur](https://imgur.com)/[glitch.com](https://glitch.com) images/videos, [GitHub](https://github.com) raw for ~anything)  
 `loadImage('https://i.imgur.com/ijQzwsx.jpeg');`
 - Locally, if running offline (ie. `/data/images/`)  
@@ -290,7 +309,7 @@ For example,  *demos/_input/_input_osc* and run Processing sketch, [p5live\_osc\
 or use the OSC snippet (`CTRL + SHIFT + O`) and set host/in/out ports.  
 
 ### BUG/CRASH?! 
-Infinite loop? Broken code? P5LIVE now ships includes an infinite loop breaker, thus rendering previous tricks more or less obsolete... nevertheless, these may still be useful:
+Infinite loop? Broken code? P5LIVE now includes an infinite loop breaker, thus rendering previous tricks more or less obsolete... nevertheless, these may still be useful:
 
 - Add `#bug` to URL and press `ENTER`.  
 Stops compiler, loads a new sketch and opens inspector to fix issue and save.
@@ -385,10 +404,51 @@ Be kind to your peers, keep data size and intervals within reasonable values.
 Have fun COCODING with keyboards, EEG-headsets, eye-trackers, ....?! 
 
 
+## RECODING 
+#### RECODING PANEL DETAIL
+<img src="includes/images/menu-recoding-inactive-1.png" width="220px">  
+
+- <img class="svg" src="includes/icons/record.svg" height="12px"> Press to start a RECODING session and record your live coding process.  
+
+<img src="includes/images/menu-recoding-extended-1.png" width="220px">  
+
+**RECODING PANEL**
+- RECODING <sup>#/#</sub> step of steps in recording.
+- <img class="svg" src="includes/icons/pause-circle.svg" height="12px"> / <img class="svg" src="includes/icons/record.svg" height="12px"> Pause/Continue recording.  
+- <img class="svg" src="includes/icons/play.svg" height="12px"> / <img class="svg" src="includes/icons/pause.svg" height="12px"> Play/Pause playback.  
+- <img class="svg" src="includes/icons/sliders.svg" height="12px"> Playback settings toggle.  
+- <img class="svg" src="includes/icons/download.svg" height="12px"> Export recording.  
+- <img class="svg" src="includes/icons/slash.svg" height="12px"> Reset RECODING.
+- Slider to scrub between recorded steps.
+
+**PLAYBACK SETTINGS**
+- [ ] Loop playback.  
+- [ ] Maximum time gap between keystrokes and time in seconds.  
+- Speed of playback
+
+
+#### RECODING EXPLAINED
+RECODING allows you to record, playback, scrub and share your live coding process! Simply press record and all changes to the editor are saved with timestamps as a temporary history. Pausing the recording, enables playback, which switches to the  `recoding` sandbox within demos to prevent  data loss on the active sketch. To save changes midway from a RECODING step, use the <img class="svg" src="includes/icons/copy.svg" height="12px"> `Clone Sketch` button. Export your RECODING to share or playing back later. So long as the browser window is open, your history remains available until you press the Reset button, allowing you to start a new RECODING.
+
+#### RECODING API
+Dynamically load RECODING files via URL params for automated playback!
+
+- ?recoding=path_to_recoding_file.json  
+- &loop=true
+- &gaps=true
+- &gapsmax=5
+- &speed=1
+- &menu=false
+- &editor=true
+
+ie. [`https://p5live.org/?recoding=includes/demos-data/recoding/demo.json&gaps=true&gapsmax=0.1`](https://www.p5live.org/?recoding=includes/demos-data/recoding/demo.json&gaps=true&gapsmax=0.1)  
+
+
+
 ## OFFLINE SERVER
 ### Basic - Python  
-Use for quickest setup or to run multiple instances (each with their own sketches storage).  
-NO COCODING + OSC with this technique.  
+Use for quickest setup or to run multiple port instances (each with  own sketches storage).  
+*No COCODING / OSC with this technique.*  
 
 - Clone / Download [P5LIVE](https://github.com/ffd8/p5live)  
 - MacOS – open `Terminal` // Windows – open `command prompt`  
@@ -399,11 +459,11 @@ NO COCODING + OSC with this technique.
 - P5LIVE is live! visit » [http://localhost:5000](http://localhost:5000)
 - To quit, `CTRL + C` in Terminal (or command prompt)
 
-Port `5000` is suggested, for alternative, just type desired one in snippet above and remember P5LIVE sketches are stored in localstorage which is unique per `domain:port`
+Port `5000` is suggested. For alternative, just type desired one in snippet above and remember P5LIVE sketches are stored in localstorage which is unique per `domain:port`
 
 ### Fancy - nodejs/npm  
-Use for all features (COCODING + OSC) + optional HTTPS mode. 
-  
+Use for all features (COCODING / OSC) + optional HTTPS mode (see below). 
+
 - Clone / Download [P5LIVE](https://github.com/ffd8/p5live)  
 - Install Node.js + NPM ([binary installers](https://nodejs.org/en/download/))  
 - MacOS – open `Terminal` // Windows – open `command prompt`  
@@ -413,26 +473,28 @@ Use for all features (COCODING + OSC) + optional HTTPS mode.
 - P5LIVE is live! visit » [http://localhost:5000](http://localhost:5000)
 - To quit, `CTRL + C` in Terminal (or command prompt)
 
-Port `5000` is suggested, for alternative, add desired port number to start command above, ie: `npm start 5010`. Remember P5LIVE sketches are stored in localstorage which is unique per `domain:port`
+Port `5000` is suggested. For alternative, add desired port number to start command above, ie: `npm start 5010`. Remember P5LIVE sketches are stored in localstorage which is unique per `domain:port`
 
 ### HTTPS
-If using **Fancy** offline server, you may want to COCODE with peers on the same local network. With p5.sound always enabled, a `localhost` or `https` connection is now required regardless of mic being active. While you are `localhost`, any connected peers are simply `http`, therefore we can use an http-proxy to tunnel `https` traffic to our `localhost`!
+If using **Fancy** offline server, you may want to COCODE with peers on the same local network or even remotely around the world. With p5.sound always enabled, a `localhost` or `https` connection is now required regardless of mic being active. While you access via `localhost`, all connected peers are simply `http` by default, therefore we can use an http-proxy to tunnel `https` traffic to our `localhost`!
 
 #### Local (same network, works offline):    
 - Start P5LIVE with `npm start https`, or custom port `npm start #### https`  
 - HTTPS port is automatically 1 digit higher than P5LIVE (5000 » 5001).  
 - Share https address displayed in Terminal, ie: `https://xxxxx.local:5001`  
 - Connected peers must accept 'unsecure' (self-gen) certificate with `Advanced` button upon loading URL. Certificates are generative + cached, renewing after 60 days.  
-- Enjoy Offline Server COCODING!  
+- Enjoy offline local peers COCODING!  
 
 #### Remote (anyone across internet w/ [ngrok](https://ngrok.com/docs#getting-started)!):  
+*Especially useful for COCODING with your own assets within `/data`*  
+
 - Start P5LIVE offline server (see above)  
 - [Download ngrok](https://ngrok.com/download)  
 - Open another tab in Terminal, `cd` to the folder containing **ngrok**  
-- Type `ngrok http 5000` and press `ENTER` (tunnels to localhost:5000)  
-- Check output for forwarding URL to share with remote peers:  
-`https://########.ngrok.io`  
-- Enjoy Online [Self-hosted] Server COCODING!
+- Type `./ngrok http 5000` and press `ENTER` (tunnels to localhost:5000)  
+- Check output forwarding URL to share with remote peers (add COCODING channel):  
+`https://**********.ngrok.io/?cc=*****`   
+- Enjoy offline remote peers COCODING!
 
 
 ## TOOLS USED
