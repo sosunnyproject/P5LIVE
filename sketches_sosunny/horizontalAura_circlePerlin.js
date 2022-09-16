@@ -3,6 +3,7 @@ let xInterval = 4;
 let yoff = 0;
 let radius = 70;
 let amplitude = 1.0;
+let strokeW1 = 1.0;
 
 // window.SIN_0, SIN_8, SIN_16, : notes true or false;
 // window.KNOB_48 ... 55 : 0 ~ 127 velocity
@@ -16,7 +17,7 @@ function setup() {
 	strokeWeight(10);
 	angleMode(DEGREES);
 	noFill();
-	blendMode(HARD_LIGHT);
+	blendMode(HARD_LIGHT); 
 	colorMode(RGB);
 	
 	randomSeed(Math.random() * 1341);
@@ -24,7 +25,7 @@ function setup() {
 
 
 function draw() {
-	//background(0, 20);
+	background(0, 20);                            //*** CHANGE
 	let left = createVector(width/3-120, height/2);
 	let middle = createVector(width/2, height/2);
 	let right = createVector(width/3*2, height/2);
@@ -32,8 +33,9 @@ function draw() {
 	let seg_num = window.KNOB_48;   // sharp or round edges
     let inten_num = window.KNOB_49/10; // 울퉁불퉁
     let amp_num = window.KNOB_50/10;
+    strokeW1 = map(window.KNOB_52, 0, 127, 0.2, 2.0);
 	// radius: sin, cos, tan
-	let r_speed = 3;  
+	let r_speed = 3;                                //*** CHANGE
 	let r_base = sin(frameCount/r_speed);
 	if(window.SIN_0) r_base = sin(frameCount/r_speed);
 	if(window.COS_0) r_base = cos(frameCount/r_speed);
@@ -49,7 +51,7 @@ function draw() {
 		rotationSpeed: 10, 	// 회전 속도
 		radius: radius+10, // 원의 지름 
 		col: color(window.coolors[0]), // 색깔
-		strokeW: 10.0     	// 선 두께
+		strokeW: strokeW1    	// 선 두께
 	}
 	noiseCircleVertex(param1);
 	
@@ -62,43 +64,45 @@ function draw() {
 		rotationSpeed: 40,
 		radius: radius + 40, 				
 		// 위 param1의 radius 값과 똑같이 쓰기
-		col: color(window.coolors[1]),  // 
-		strokeW: 2.0         // 선 두께
+		col: color(window.coolors[1]),  
+		strokeW: strokeW1       // 선 두께
 	}
 	noiseCircleVertex(param2);
 	
 	let param3 = {
 		segments: 800, 
 		intensity: inten_num,    					
-		// 위 param1의	intensity 값과 똑같이 쓰기
 		amplitude: amp_num, 				 
-		// 위 param1의 amplitude 값과 똑같이 쓰기
 		rotationSpeed: 10,
 		radius: radius+60, 				
-		// 위 param1의 radius 값과 똑같이 쓰기
 		col: color(window.coolors[2]),  
-		strokeW: 2.0            
+		strokeW: strokeW1          
 		// 선 두께
 	}
 	noiseCircleVertex(param3);
 	
+	let param4 = {
+		segments: 600, 
+		intensity: inten_num,    					
+		amplitude: amp_num, 				 
+		rotationSpeed: 10,
+		radius: radius+100, 				
+		col: color(window.coolors[3]),  
+		strokeW: strokeW1          
+	}
+	noiseCircleVertex(param4);
+	
 	// 검정 원
 	let paramBlack = {
 		segments: 800, 
-		intensity: 1,    					// 위 param1의	intensity 값과 똑같이 쓰기
-		amplitude: 2.0, 				 // 위 param1의 amplitude 값과 똑같이 쓰기
+		intensity: 1,    				
+		amplitude: 2.0, 				 
 		rotationSpeed: 100,
-		radius: radius+60, 				// 위 param1의 radius 값과 똑같이 쓰기
+		radius: radius+60, 			
 		col: color("#000000"),  // 검정색
-		strokeW: 2.0        // 선 두께
+		strokeW: 2.0       // 선 두께
 	}
 	noiseCircleVertex(paramBlack); 
-// 	noiseCircleVertex(left,300, 10, radius+50, color("#7ca736"), 0.5); // middle
-// 	noiseCircleVertex(left,200, 8, radius+100, color("#f8f7ff"), 0.5); // out
-// 	noiseCircleVertex(left,100, 5, radius, color("#ffee2d"), 0.5); // in
-	
-	// black
-	// noiseCircleVertex(left,400, 2, radius, color(0, 0, 0), 1);
 
     // perlinVertex(startY, endY, xGap, strokeW, col)
     let lineParam1 = {

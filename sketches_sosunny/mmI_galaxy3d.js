@@ -20,6 +20,8 @@ window.KNOB_49 = 2; //speed rotateZ
 window.KNOB_50 = 2; // speed rotateY
 let numKey = 1;
 window.coolors = colors;
+let rotateCube = 10;
+let cubeSize = 4;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight, WEBGL);
@@ -49,25 +51,32 @@ function setup() {
 }
 
 function draw() {
-	// background(0);
-	fadeToBlack();
+	background(0);        // **CHANGE
+	// fadeToBlack();       // **CHANGE
 	lights();
 	ambientMaterial(120);
 	ambientLight(ambientBrightness);
 	orbitControl();
 	
 	// ***DISABLE ENABLE DISABLE
-	// camera(sin(frameCount)*(width), cos(frameCount)*(height), 50+tan(frameCount)*10);
+	// camera(sin(frameCount)*(width), cos(frameCount)*(height), 100+tan(frameCount)*50);  // *** CHANGE
 	
-	let knobAngle = window.KNOB_48/10 || 10;  // *** each cube rotate
-	numKey = window.KNOB_51 ? Math.floor(map(window.KNOB_51, 0, 127, 1, 9)) : 1;
+	// *** MIDI
+	let knobAngle = window.KNOB_48/10 || 10;  // *** MIDI 48
+	numKey = window.KNOB_51 ? Math.floor(map(window.KNOB_51, 0, 127, 1, 9)) : 1;   // *** 51: DRAMATIC
+	rotateCube = Math.floor(map(window.KNOB_52, 0, 127, 5, 25));
+	cubeSize = Math.floor(map(window.KNOB_53, 0, 127, 2, 10));
 	// *** overall rotate
 	
+    push()
+	// translate(cos(frameCount)*100, sin(frameCount)*100 , tan(frameCount)*100); // *** CHANGE
+ 
 	for(let i = 0; i < cubes.length; i++) {
 		cubes[i].render();
 		cubes[i].rotate(knobAngle);
-		cubes[i].changeColors(window.coolors)
+		cubes[i].changeColors(window.coolors)     // **** CHANGE *****  MIDI COLORS
 	}
+	pop();
 	
 }
 
@@ -93,9 +102,10 @@ class Cube {
 	
 	render() {
 	
-	 rotateY(sin(frameCount/window.KNOB_50)*(30*this.index));
-		rotateZ(cos(frameCount/window.KNOB_49)*(30*this.index));
-
+	// **CHANGE tan, 30 => 10
+	 rotateY(sin(frameCount/window.KNOB_50)*(rotateCube*this.index));   // **** CHANGE ***** 
+		rotateZ(cos(frameCount/window.KNOB_49)*(rotateCube*this.index));   // **** CHANGE ***** 
+    
 		push();
 		translate(this.pos.x*this.gap, this.pos.y*this.gap, this.pos.z*this.gap);
 		if(this.index%3 === 0) { 
@@ -106,12 +116,12 @@ class Cube {
 			rotateZ(this.angle);
 		}
 		ambientMaterial(this.col);
-		box(10);
+		box(cubeSize);
 		pop();
 		
 		if(this.index%numKey === 0) {
-			this.gap = tan(frameCount/10) * 50;
-			// **** CHANGE ***** 
+			this.gap = sin(frameCount/10) * 30; // **** CHANGE ***** 
+			
 		} else {
 			this.gap = 10 + 20 * cos(frameCount/4);
 		}

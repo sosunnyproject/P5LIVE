@@ -16,7 +16,7 @@ function setup() {
   setupMidi();
   createCanvas(windowWidth, windowHeight);
   heightSize = height/(nums+5)
-  heightNums = int(height/heightSize)+ 10
+  heightNums = int(height/heightSize)+ 10 
   
   // match arr1, arr2 colors
 
@@ -38,9 +38,9 @@ function draw() {
 
   translate(width/2, height/2)
   stroke(200)
-  // ** CHANGE CIRCLE WHITE LINES
+											// ** CHANGE CIRCLE WHITE LINES
   strokeWeight(1);
-  // strokeWeight(tan(frameCount/5)*strokeW)
+  // strokeWeight(tan(frameCount/5)*strokeW*2)  	// ** CHANGE CIRCLE WHITE LINES --- 1
   noFill()
 
   for(let i = 0; i < 10; i++) {
@@ -88,9 +88,9 @@ function draw() {
   //  drawCircleSegments(speed + TWO_PI/10*i, r5, r5*1.25, colors[0][i])
   //}
 
-  //arc(0, 0, r5*2, r5*2, speed2 + TWO_PI/-10*3, speed1 + TWO_PI/10*6)
-  //arc(0, 0, r5*1.25*2, r5*1.25*2, speed1 + TWO_PI/10*2, speed2 + TWO_PI/10*5)
-  //arc(0, 0, r5*1.25*2, r5*1.25*2, speed1 + TWO_PI/10*8, speed2 + TWO_PI/10*5)
+ // arc(0, 0, r5*2, r5*2, speed2 + TWO_PI/-10*3, speed1 + TWO_PI/10*6)
+ // arc(0, 0, r5*1.25*2, r5*1.25*2, speed1 + TWO_PI/10*2, speed2 + TWO_PI/10*5)
+ // arc(0, 0, r5*1.25*2, r5*1.25*2, speed1 + TWO_PI/10*8, speed2 + TWO_PI/10*5)
 
  // for(let i = 0; i < 6; i++) {
  //   let speed = speed1
@@ -129,7 +129,7 @@ function drawGrid() {
       rect(x, y, r1)
     }
   }
-  pop()
+  pop() 
 }
 function drawCircleSegments(speed, innerRadius, outerRadius, col) {
   let x1 = cos(speed)*innerRadius  // *** climax: change to tan, tan / tain, sin

@@ -6,6 +6,7 @@ let col4 = createCols("https://coolors.co/palette/5465ff-788bff-9bb1ff-bfd7ff-e2
 let col5 = createCols("https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8");
 
 window.coolors = col3;
+window.coolors2 = col1;
 
 function createCols(url)
 {
@@ -17,21 +18,27 @@ function createCols(url)
 }
 
 function chooseColors(noteKey) {
+	console.log(noteKey);
     switch(noteKey){
         case 3:
             window.coolors = col1;
+						window.coolors2 = col2;
             break;
         case 4:
             window.coolors = col2;
+						window.coolors2 = col3;
             break;
         case 5:
             window.coolors = col3;
+						window.coolors2 = col4;
             break;
         case 6:
             window.coolors = col4;
+						window.coolors2 = col5;
             break;
         case 7:
             window.coolors = col5;
+						window.coolors2 = col1;
             break;
     }
 
