@@ -4,6 +4,7 @@ let col2 = createCols("https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a
 let col3 = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56"]
 let col4 = createCols("https://coolors.co/palette/5465ff-788bff-9bb1ff-bfd7ff-e2fdff");
 let col5 = createCols("https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8");
+let col6 = createCols("https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93");
 
 window.coolors = col3;
 window.coolors2 = col1;
@@ -38,7 +39,7 @@ function chooseColors(noteKey) {
             break;
         case 7:
             window.coolors = col5;
-						window.coolors2 = col1;
+						window.coolors2 = col6;
             break;
     }
 

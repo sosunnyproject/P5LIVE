@@ -37,7 +37,7 @@ function draw() {
   noStroke()
 
   // *** MIDI
-  let slowInt = Math.floor(map(window.KNOB_48, 0, 127, 2, 20));
+  let slowInt = Math.floor(map(window.KNOB_48, 0, 127, 5, 40));
 	nums = Math.floor(map(window.KNOB_50, 0, 127, 2, 20));
 	xVar = Math.floor(map(window.KNOB_51, 0, 127, 0, 5));
 	strokeW = Math.floor(map(window.KNOB_49, 0, 127, 0.5, 5));
@@ -76,9 +76,9 @@ function drawOneRow(topY, bottomY, slow, fast, colorArr){
   let change2 = speedSin*xSize
   let change3 = speedTan*xSize
   
-  let xOffset1 = Math.abs(speedSin)*xSize  //**CHANGE
-  let xOffset2 = Math.abs(speedSin)*xSize
-  let xOffset3 = Math.abs(speedSin)*xSize
+  let xOffset1 = Math.abs(speedSin)*xSize      //**CHANGE
+  let xOffset2 = Math.abs(speedSin)*xSize       //**CHANGE to speedTan
+  let xOffset3 = Math.abs(speedSin)*xSize       //**CHANGE to speedTan
   
   
 //   let xCosOffset = (speedCos) * map(speedSin, -1, 1, -xSize/4, xSize/4)
@@ -100,13 +100,13 @@ function drawOneRow(topY, bottomY, slow, fast, colorArr){
     
   // Draw First One Seperately (leftmost)
   beginShape()
-  stroke(colorArr[0])
+  stroke(colorArr[0])                             //****CHANGE Stroke or Fill
   vertex(0, topY)  // left top
   
   // left top to right top
   
   let rtx = xSize  + change1 + xOffset1
-  vertex(rtx, topY) // right top  
+  vertex(rtx, topY) // right top                   //***CHANGE to curveVertex
   vertex(rtx, bottomY) // right bottom
   
   // right bottom to left bottom
@@ -115,15 +115,15 @@ function drawOneRow(topY, bottomY, slow, fast, colorArr){
   endShape(CLOSE)
   
   // Draw rest 9 Rectangles
-  for(let i = 0; i < nums-1; i++) {               // start from i = 0
+  for(let i = 0; i < nums-1; i++) {               
     let index = i % changes.length // 0, 1, 2
     let nextIndex = (i+1) % changes.length    
   
     beginShape()
-    stroke(colorArr[colorInd[i]])                  //**** CHANGE TO FILL 
+    stroke(colorArr[colorInd[i]])                  //**** CHANGE TO Stroke or FILL 
     
     let xInc = map(speedCos, -1, 1, 1, 2)
-    let leftTopX = xSize * (i+xInc) + changes[index] // + xOffsets[index]
+    let leftTopX = xSize * (i+xInc) + changes[index]  + xOffsets[index]
     
     // VERTEX 1 (LEFT TOP)
     vertex(leftTopX, topY) 
@@ -134,12 +134,12 @@ function drawOneRow(topY, bottomY, slow, fast, colorArr){
       let rightTopX = xSize * (i+2) 
       
       // VERTEX 2 (RIGHT TOP), VERTEX 3 (RIGHT BOTTOM)
-      vertex(rightTopX, topY) 
+      vertex(rightTopX, topY)
       
-      vertex(rightTopX, bottomY)
+      vertex(rightTopX, bottomY);
     
     } else {
-      let rightTopX = xSize * (i+xVar) + changes[nextIndex] // + xOffsets[nextIndex]
+      let rightTopX = xSize * (i+xVar) + changes[nextIndex] + xOffsets[nextIndex]
 
       // VERTEX 2 (RIGHT TOP)
       vertex(rightTopX , topY) 
@@ -147,7 +147,7 @@ function drawOneRow(topY, bottomY, slow, fast, colorArr){
       // right top to right bottom
 
       // VERTEX 3 (RIGHT BOTTOM)      
-      let rightBottomX = xSize * (i+xVar) + changes[nextIndex] // + xOffsets[nextIndex]
+      let rightBottomX = xSize * (i+xVar) + changes[nextIndex] + xOffsets[nextIndex]
       vertex(rightBottomX, bottomY)
       
       // right bottom to left bottom

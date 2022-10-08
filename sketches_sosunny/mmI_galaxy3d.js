@@ -65,7 +65,7 @@ function draw() {
 	let knobAngle = window.KNOB_48/10 || 10;  // *** MIDI 48
 	numKey = window.KNOB_51 ? Math.floor(map(window.KNOB_51, 0, 127, 1, 9)) : 1;   // *** 51: DRAMATIC
 	rotateCube = Math.floor(map(window.KNOB_52, 0, 127, 5, 25));
-	cubeSize = Math.floor(map(window.KNOB_53, 0, 127, 2, 10));
+	cubeSize = Math.floor(map(window.KNOB_53, 0, 127, 2, 20));
 	// *** overall rotate
 	
     push()
@@ -74,7 +74,7 @@ function draw() {
 	for(let i = 0; i < cubes.length; i++) {
 		cubes[i].render();
 		cubes[i].rotate(knobAngle);
-		cubes[i].changeColors(window.coolors)     // **** CHANGE *****  MIDI COLORS
+		cubes[i].changeColors(window.coolors)   				// **** CHANGE MIDI COLORS
 	}
 	pop();
 	
@@ -90,7 +90,7 @@ class Cube {
 		this.index = ind
 		this.angle = angle;
 		this.pos = pos;
-		this.gap = 20;
+		this.gap = 30;
 		this.stIndex= stIndex;
 		this.secIndex = secIndex;
 		this.col = color(random(colors));
@@ -103,8 +103,8 @@ class Cube {
 	render() {
 	
 	// **CHANGE tan, 30 => 10
-	 rotateY(sin(frameCount/window.KNOB_50)*(rotateCube*this.index));   // **** CHANGE ***** 
-		rotateZ(cos(frameCount/window.KNOB_49)*(rotateCube*this.index));   // **** CHANGE ***** 
+	 rotateY(sin(frameCount/window.KNOB_50)*(rotateCube*this.index));   // **** CHANGE tan ***** 
+	 rotateZ(cos(frameCount/window.KNOB_49)*(rotateCube*this.index));   // **** CHANGE ***** 
     
 		push();
 		translate(this.pos.x*this.gap, this.pos.y*this.gap, this.pos.z*this.gap);
@@ -137,7 +137,7 @@ class Cube {
 function fadeToBlack() {
 	// translate(0, 0, 0);
 	rotateX(cos(frameCount/4)*100);
-	rotateY(sin(frameCount/4)*100);
+	rotateY(sin(frameCount/4)*100);                  //*** CHANGE to TAN
   // fill(250, 250, 230, 40);
 	fill(0, 10); 
 	beginShape();

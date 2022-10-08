@@ -25,7 +25,7 @@ function setup() {
 
 
 function draw() {
-	background(0, 20);                            //*** CHANGE
+	background(0, 20);                               //*** CHANGE
 	let left = createVector(width/3-120, height/2);
 	let middle = createVector(width/2, height/2);
 	let right = createVector(width/3*2, height/2);
@@ -33,15 +33,16 @@ function draw() {
 	let seg_num = window.KNOB_48;   // sharp or round edges
     let inten_num = window.KNOB_49/10; // 울퉁불퉁
     let amp_num = window.KNOB_50/10;
-    strokeW1 = map(window.KNOB_52, 0, 127, 0.2, 2.0);
+    strokeW1 = map(window.KNOB_52, 0, 127, 0.2, 10.0);
 	// radius: sin, cos, tan
-	let r_speed = 3;                                //*** CHANGE
+	
+	let r_speed = 2;                                //*** CHANGE
 	let r_base = sin(frameCount/r_speed);
-	if(window.SIN_0) r_base = sin(frameCount/r_speed);
-	if(window.COS_0) r_base = cos(frameCount/r_speed);
-	if(window.TAN_0) r_base = tan(frameCount/r_speed);
+	if(window.SIN_0) r_base = sin(frameCount/(r_speed*4));
+	if(window.COS_0) r_base = cos(frameCount/(r_speed*2));
+	if(window.TAN_0) r_base = tan(frameCount*2);
 
-	radius = r_base*40 + window.KNOB_51;
+	radius = r_base*10 + window.KNOB_51;
 
 	let param1 = {
 		segments: 300 + seg_num,
