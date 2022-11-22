@@ -4,10 +4,12 @@ let yoff = 0;
 let radius = 70;
 let amplitude = 1.0;
 let strokeW1 = 1.0;
+let mic;
+let micVol;
 
 // window.SIN_0, SIN_8, SIN_16, : notes true or false;
 // window.KNOB_48 ... 55 : 0 ~ 127 velocity
-window.coolors = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56"];
+window.coolors = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56", "#ff595e"];
 
 function setup() {
 	createCanvas(windowWidth, windowHeight)
@@ -17,22 +19,26 @@ function setup() {
 	strokeWeight(10);
 	angleMode(DEGREES);
 	noFill();
-	blendMode(HARD_LIGHT); 
+	blendMode(HARD_LIGHT);
 	colorMode(RGB);
 	
-	randomSeed(Math.random() * 1341);
+	randomSeed(Math.random() * 1341);  
+	mic = new p5.AudioIn(); 
+	mic.start();
 }
-
-
+ 
+ 
 function draw() {
-	background(0, 20);                               //*** CHANGE
+	  background(0, 10);                               //*** CHANGE
+	  micVol = mic.getLevel()* 5;                     //*** CHANGE REACTIVE
+	  
 	let left = createVector(width/3-120, height/2);
 	let middle = createVector(width/2, height/2);
 	let right = createVector(width/3*2, height/2);
 	
 	let seg_num = window.KNOB_48;   // sharp or round edges
-    let inten_num = window.KNOB_49/10; // 울퉁불퉁
-    let amp_num = window.KNOB_50/10;
+    let inten_num = micVol + window.KNOB_49/10; // 울퉁불퉁
+    let amp_num = micVol + window.KNOB_50/10;
     strokeW1 = map(window.KNOB_52, 0, 127, 0.2, 10.0);
 	// radius: sin, cos, tan
 	
@@ -93,17 +99,52 @@ function draw() {
 	}
 	noiseCircleVertex(param4);
 	
+	let param5 = {
+		segments: 800, 
+		intensity: inten_num,    					
+		amplitude: amp_num,
+		rotationSpeed: 10,
+		radius: radius+120, 			 	
+		col: color(window.coolors[4]),
+		strokeW: strokeW1          
+	}
+	noiseCircleVertex(param5); 
+	
 	// 검정 원
 	let paramBlack = {
 		segments: 800, 
 		intensity: 1,    				
 		amplitude: 2.0, 				 
 		rotationSpeed: 100,
-		radius: radius+60, 			
+		radius: radius+40, 			
 		col: color("#000000"),  // 검정색
 		strokeW: 2.0       // 선 두께
 	}
 	noiseCircleVertex(paramBlack); 
+	
+		// 검정 원
+	let paramBlack2 = {
+		segments: 800, 
+		intensity: 1,    				
+		amplitude: 2.0, 				 
+		rotationSpeed: 100,
+		radius: radius+80, 			
+		col: color("#000000"),  // 검정색
+		strokeW: 2.0       // 선 두께
+	}
+	noiseCircleVertex(paramBlack2);
+	
+	// 검정 원
+	let paramBlack3 = {
+		segments: 800, 
+		intensity: 1,    				
+		amplitude: 2.0, 				 
+		rotationSpeed: 100,
+		radius: radius+140, 			
+		col: color("#000000"),  // 검정색
+		strokeW: 2.0       // 선 두께
+	}
+	noiseCircleVertex(paramBlack3);
 
     // perlinVertex(startY, endY, xGap, strokeW, col)
     let lineParam1 = {

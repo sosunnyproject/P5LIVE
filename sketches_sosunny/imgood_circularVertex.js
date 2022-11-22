@@ -33,12 +33,12 @@ function draw() {
   strokeW = map(window.KNOB_48, 0, 127, 1, 50);
   speedOffset = map(window.KNOB_49, 0, 127, 0, 100);
 
-  let speed1 = sin(frameCount/(100+speedOffset))*TWO_PI
+  let speed1 = sin(frameCount/(100+speedOffset))*TWO_PI   // CHANGE 100 => 60 to faster
   let speed2 = cos(frameCount/(200+speedOffset))*TWO_PI
 
   translate(width/2, height/2)
   stroke(200)
-											// ** CHANGE CIRCLE WHITE LINES
+											          // ** CHANGE CIRCLE WHITE LINES
   strokeWeight(1);
   // strokeWeight(tan(frameCount/5)*strokeW*2)  	// ** CHANGE CIRCLE WHITE LINES --- 1
   noFill()
@@ -76,7 +76,7 @@ function draw() {
     let speed = speed1
     if(i % 2 === 0) speed = speed2
     drawCircleSegments(speed + TWO_PI/6*i, r4, r4*1.25, colors[1][i])
-  }
+  } 
 
   //arc(0, 0, r4*2, r4*2, speed2 + TWO_PI/-6*3, speed1 + TWO_PI/6*6)
   //arc(0, 0, r4*1.25*2, r4*1.25*2, speed1 + TWO_PI/6*3, speed1 + TWO_PI/6*5)
@@ -132,13 +132,13 @@ function drawGrid() {
   pop() 
 }
 function drawCircleSegments(speed, innerRadius, outerRadius, col) {
-  let x1 = cos(speed)*innerRadius  // *** climax: change to tan, tan / tain, sin
-  let y1 = sin(speed)*innerRadius  // climax: change to tan, sin / tan, cos
+  let x1 = cos(speed)*innerRadius					// *** climax: change to tan, tan / tain, sin
+  let y1 = sin(speed)*innerRadius					// climax: change to tan, sin / tan, cos
 
-  let x2 = cos(speed)*outerRadius  // climax: change to tan, sin / tan, sin
-  let y2 = sin(speed)*outerRadius  // climax: change to tan, cos / tan, cos
+  let x2 = cos(speed)*outerRadius					// climax: change to tan, sin / tan, sin
+  let y2 = sin(speed)*outerRadius					// climax: change to tan, cos / tan, cos
 
-  let thickness = map(tan(speed), -5, 5, 1, strokeW) // change speed*2
+  let thickness = map(sin(speed), -5, 5, 1, strokeW)   // colorStroke: change sin to tan
 
   push()
   strokeWeight(thickness)
