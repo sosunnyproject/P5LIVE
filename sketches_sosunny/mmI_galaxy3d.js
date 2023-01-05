@@ -18,6 +18,12 @@ let stackAngle, sectorAngle;
 window.KNOB_1 = 1; 
 window.KNOB_2 = 2; //speed rotateZ
 window.KNOB_3 = 2; // speed rotateY
+window.KNOB_4 = 1;
+window.KNOB_5 = 1;
+window.KNOB_6 = 1;
+window.KNOB_7 = 1;
+window.KNOB_8 = 1;
+
 let numKey = 1;
 window.coolors = colors;
 let rotateCube = 10;
@@ -102,9 +108,9 @@ class Cube {
 	
 	render() {
 	
-	// **CHANGE tan, 30 => 10
-	 rotateY(sin(frameCount/window.KNOB_3)*(rotateCube*this.index));   // **** CHANGE tan ***** 
-	 rotateZ(cos(frameCount/window.KNOB_2)*(rotateCube*this.index));   // **** CHANGE ***** 
+	// **CHANGE KNOB_3, 2 for SPEED.. tan, 30 => 10
+	 rotateY(cos(frameCount/window.KNOB_3)*(rotateCube*this.index));
+	 rotateZ(sin(frameCount/window.KNOB_2)*(rotateCube*this.index));
     
 		push();
 		translate(this.pos.x*this.gap, this.pos.y*this.gap, this.pos.z*this.gap);
