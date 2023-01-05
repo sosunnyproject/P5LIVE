@@ -8,8 +8,13 @@ let mic;
 let micVol;
 
 // window.SIN_0, SIN_8, SIN_16, : notes true or false;
-// window.KNOB_48 ... 55 : 0 ~ 127 velocity
+// window.KNOB_1 ... 8 : 0 ~ 127 velocity
 window.coolors = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56", "#ff595e"];
+window.KNOB_4 = 10;
+window.KNOB_5 = 2;
+window.KNOB_3 = 10;
+window.KNOB_2 = 10;
+window.KNOB_1 = 20;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight)
@@ -36,19 +41,19 @@ function draw() {
 	let middle = createVector(width/2, height/2);
 	let right = createVector(width/3*2, height/2);
 	
-	let seg_num = window.KNOB_48;   // sharp or round edges
-    let inten_num = micVol + window.KNOB_49/10; // 울퉁불퉁
-    let amp_num = micVol + window.KNOB_50/10;
-    strokeW1 = map(window.KNOB_52, 0, 127, 0.2, 10.0);
+	let seg_num = window.KNOB_1;   // sharp or round edges
+    let inten_num = micVol + window.KNOB_2/10; // 울퉁불퉁
+    let amp_num = micVol + window.KNOB_3/10;
+    strokeW1 = map(window.KNOB_5, 0, 127, 0.2, 10.0);
 	// radius: sin, cos, tan
 	
-	let r_speed = 2;                                //*** CHANGE
+	let r_speed = 12;                                //*** CHANGE
 	let r_base = sin(frameCount/r_speed);
 	if(window.SIN_0) r_base = sin(frameCount/(r_speed*4));
 	if(window.COS_0) r_base = cos(frameCount/(r_speed*2));
 	if(window.TAN_0) r_base = tan(frameCount*2);
 
-	radius = r_base*10 + window.KNOB_51;
+	radius = r_base*10 + window.KNOB_4;
 
 	let param1 = {
 		segments: 300 + seg_num,
