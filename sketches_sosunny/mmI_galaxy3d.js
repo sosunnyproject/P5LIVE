@@ -15,9 +15,9 @@ let stackStep = 180 / stackCount;
 let radius = 20;
 let stackAngle, sectorAngle;
 
-window.KNOB_48 = 0; 
-window.KNOB_49 = 2; //speed rotateZ
-window.KNOB_50 = 2; // speed rotateY
+window.KNOB_1 = 1; 
+window.KNOB_2 = 2; //speed rotateZ
+window.KNOB_3 = 2; // speed rotateY
 let numKey = 1;
 window.coolors = colors;
 let rotateCube = 10;
@@ -62,10 +62,10 @@ function draw() {
 	// camera(sin(frameCount)*(width), cos(frameCount)*(height), 100+tan(frameCount)*50);  // *** CHANGE
 	
 	// *** MIDI
-	let knobAngle = window.KNOB_48/10 || 10;  // *** MIDI 48
-	numKey = window.KNOB_51 ? Math.floor(map(window.KNOB_51, 0, 127, 1, 9)) : 1;   // *** 51: DRAMATIC
-	rotateCube = Math.floor(map(window.KNOB_52, 0, 127, 5, 25));
-	cubeSize = Math.floor(map(window.KNOB_53, 0, 127, 2, 20));
+	let knobAngle = window.KNOB_1/10 || 10; 
+	numKey = window.KNOB_4 ? Math.floor(map(window.KNOB_4, 0, 127, 1, 9)) : 1;   // *** DRAMATIC
+	rotateCube = Math.floor(map(window.KNOB_5, 0, 127, 5, 25));
+	cubeSize = Math.floor(map(window.KNOB_6, 0, 127, 2, 20));
 	// *** overall rotate
 	
     push()
@@ -103,8 +103,8 @@ class Cube {
 	render() {
 	
 	// **CHANGE tan, 30 => 10
-	 rotateY(sin(frameCount/window.KNOB_50)*(rotateCube*this.index));   // **** CHANGE tan ***** 
-	 rotateZ(cos(frameCount/window.KNOB_49)*(rotateCube*this.index));   // **** CHANGE ***** 
+	 rotateY(sin(frameCount/window.KNOB_3)*(rotateCube*this.index));   // **** CHANGE tan ***** 
+	 rotateZ(cos(frameCount/window.KNOB_2)*(rotateCube*this.index));   // **** CHANGE ***** 
     
 		push();
 		translate(this.pos.x*this.gap, this.pos.y*this.gap, this.pos.z*this.gap);
