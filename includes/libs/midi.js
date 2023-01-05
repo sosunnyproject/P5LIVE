@@ -9,6 +9,14 @@ let col6 = createCols("https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a
 window.coolors = col3;
 window.coolors2 = col1;
 
+const CHANNEL_KEYBOARD = 1;
+const CHANNEL_PAD = 0;
+const MIDI_CLOCK = 248;
+const TYPE_NOTE_ON = 144;
+const TYPE_NOTE_OFF = 128;
+const TYPE_KNOB = 176;
+const NOTE1 = 36, NOTE2 = 37, NOTE3 = 38, NOTE4 = 39, NOTE5 = 40
+
 function createCols(url)
 {
 	let slaIndex = url.lastIndexOf("/");
@@ -18,202 +26,191 @@ function createCols(url)
 	return colArr;
 }
 
-function chooseColors(noteKey) {
-	console.log(noteKey);
-    switch(noteKey){
-        case 3:
+function changeColorPalette(note) {
+    switch(note){
+        case NOTE1:
             window.coolors = col1;
-						window.coolors2 = col2;
+			window.coolors2 = col2;
             break;
-        case 4:
+        case NOTE2:
             window.coolors = col2;
-						window.coolors2 = col3;
+			window.coolors2 = col3;
             break;
-        case 5:
+        case NOTE3:
             window.coolors = col3;
-						window.coolors2 = col4;
+			window.coolors2 = col4;
             break;
-        case 6:
+        case NOTE4:
             window.coolors = col4;
-						window.coolors2 = col5;
+			window.coolors2 = col5;
             break;
-        case 7:
+        case NOTE5:
             window.coolors = col5;
-						window.coolors2 = col6;
+			window.coolors2 = col6;
             break;
     }
 
 }
 
+// 미디 연결
 function setupMidi() {
-    // 미디 연결
-if (navigator.requestMIDIAccess) console.log('이 브라우저는 WebMIDI를 지원합니다!')
-else console.log('WebMIDI가 실행되지 않습니다.')
-// ask for MIDI access
-navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+    if (navigator.requestMIDIAccess) console.log('이 브라우저는 WebMIDI를 지원합니다!')
+    else console.log('WebMIDI가 실행되지 않습니다.')
+    // ask for MIDI access
+    navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
 }
 // 미디 연결
 function onMIDISuccess(midiAccess) {
-// console.log(midiAccess)
-const midi = midiAccess
-const inputs = midi.inputs.values()
-const input = inputs.next()
-input.value.onmidimessage = onMIDIMessage
+    const midi = midiAccess
+    const inputs = midi.inputs.values()
+    const input = inputs.next()
+    input.value.onmidimessage = onMIDIMessage
 }
 
+// 미디 키보드 눌렀을 때 발생하는 이벤트
 function onMIDIMessage(message) {
-const data = message.data // [command/channel, note, velocity]
+    const data = message.data // [command/channel, note, velocity]
+    const cmd = data[0] >> 4
+    channel = data[0] & 0xf
+    type = data[0] & 0xf0
+    note = data[1]
+    velocity = data[2]
 
-const cmd = data[0] >> 4
-channel = data[0] & 0xf
-type = data[0] & 0xf0
-note = data[1]
-velocity = data[2]
+    // 248 is midi clock
+    if (data[0] != MIDI_CLOCK) {    
+        if(type === TYPE_NOTE_ON) {
+            if(channel === CHANNEL_KEYBOARD) {
+                keyboardPressed(channel, note, velocity);
 
-// 248 is midi clock
-if (data[0] != 248) {
-    // console.log("MIDI data: ", data)
-    // 미디 키보드 눌렀을 때 발생하는 이벤트
-    
-    if(type === 144) {
-        // note
-        // velocity
-        
-        // 음계 숫자가 3의 배수이면 가사 바꾸기
-        // if(note%3 === 0) changeText();
-        
-        if(channel === 1) { // keyboards - note !!!
-            console.log(`channel 1, note: ${note}, vel: ${velocity}`);
-
-        } else if(channel === 0) {  // rect buttons - note!!
-            
-            // console.log(`channel 1, note: ${note}, vel: ${velocity}`);
-            switch(note) {
-                case 0:
-                    window.SIN_0 = true;
-                    window.COS_0 = false;
-                    window.TAN_0 = false;
-                    break;
-                case 1:
-                    window.SIN_0 = false;
-                    window.COS_0 = true;
-                    window.TAN_0 = false;
-                    break;
-                case 2:
-                    window.SIN_0 = false;
-                    window.COS_0 = false;
-                    window.TAN_0 = true;
-                    break;
-                
-                // SIN_8, COS_8, TAN_8
-                case 8:
-                    window.SIN_8 = true;
-                    window.COS_8 = false;
-                    window.TAN_8 = false;
-                    break;
-                case 9:
-                    window.SIN_8 = false;
-                    window.COS_8 = true;
-                    window.TAN_8 = false;
-                    break;
-                case 10:
-                    window.SIN_8 = false;
-                    window.COS_8 = false;
-                    window.TAN_8 = true;
-                    break;
-                
-                // 3rd line: 16
-                case 16:
-                    window.SIN_16 = true;
-                    window.COS_16 = false;
-                    window.TAN_16 = false;
-                    break;
-                case 17:
-                    window.SIN_16 = false;
-                    window.COS_16 = true;
-                    window.TAN_16 = false;
-                    break;
-                case 18:
-                    window.SIN_16 = false;
-                    window.COS_16 = false;
-                    window.TAN_16 = true;
-                    break;
+            } else if(channel === CHANNEL_PAD) { 
+                padPressed(channel, note, velocity);
+                changeCoolor(note);
             }
-            if(7 >= note && note >=3) {
-                chooseColors(note);
-            }
-        } else {
-             
-            // console.log(`channel: ${channel} note: ${note}, vel: ${velocity}`);
+        } else if(type === TYPE_KNOB) {
+            knobChanged(channel, note, velocity);
         }
-    } else if(type === 176) { // knobs
-        // velocity !! 
-        console.log(`channel 1, note: ${note}, vel: ${velocity}`);
-        switch(note) {
-            
-            case 48:
-                window.KNOB_48 = velocity;
-                break;
-            case 49:
-                window.KNOB_49 = velocity;
-                break;
-            case 50:
-                window.KNOB_50 = velocity;
-                break;
-            case 51:
-                window.KNOB_51 = velocity;
-                break;
-            case 52:
-                window.KNOB_52 = velocity;
-                break;
-            case 53:
-                window.KNOB_53 = velocity;
-                break;
-            case 54:
-                window.KNOB_54 = velocity;
-                break;
-            case 55:
-                window.KNOB_55 = velocity;
-                break;
-        }
-        
-    } else {
-        // console.log(data);
-        // console.log(type);
     }
- 
 }
 
-/*
-  with pressure/tilt off:
-  note off: 128, cmd: 8
-  note on: 144, cmd: 9
-  
-  with pressure/tilt on
-  pressure: 176, cmd 11
-  bend: 224, cmd: 14
-*/
-
-switch (type) {
-    case 144: // noteOn message type (always 144 no matter what channel)
-        noteOn(channel, note, velocity)
-        break
-    case 128: //noteOff message type (always 128)
-        noteOff(channel, note, velocity)
-        break
+function keyboardPressed() {
+    console.log(`KEYBOARD: channel ${channel}, note: ${note}, vel: ${velocity}`);
 }
+
+// AKAI Laptop Pad Controller 8
+// PAD5.NOTE40  PAD6.NOTE41  PAD7.NOTE42  PAD8.NOTE43
+// PAD1.NOTE36  PAD2.NOTE37  PAD3.NOTE38  PAD4.NOTE39
+function padPressed() {
+    console.log(`PAD: channel: ${channel}, note: ${note}, vel: ${velocity}`);
+    switch(note) {
+        case 0:
+            window.SIN_0 = true;
+            window.COS_0 = false;
+            window.TAN_0 = false;
+            break;
+        case 1:
+            window.SIN_0 = false;
+            window.COS_0 = true;
+            window.TAN_0 = false;
+            break;
+        case 2:
+            window.SIN_0 = false;
+            window.COS_0 = false;
+            window.TAN_0 = true;
+            break;
+        
+        // SIN_8, COS_8, TAN_8
+        case 8:
+            window.SIN_8 = true;
+            window.COS_8 = false;
+            window.TAN_8 = false;
+            break;
+        case 9:
+            window.SIN_8 = false;
+            window.COS_8 = true;
+            window.TAN_8 = false;
+            break;
+        case 10:
+            window.SIN_8 = false;
+            window.COS_8 = false;
+            window.TAN_8 = true;
+            break;
+        
+        // 3rd line: 16
+        case 16:
+            window.SIN_16 = true;
+            window.COS_16 = false;
+            window.TAN_16 = false;
+            break;
+        case 17:
+            window.SIN_16 = false;
+            window.COS_16 = true;
+            window.TAN_16 = false;
+            break;
+        case 18:
+            window.SIN_16 = false;
+            window.COS_16 = false;
+            window.TAN_16 = true;
+            break;
+    }
+}
+
+function changeCoolor(note) {
+    if(NOTE5 >= note && note >= NOTE1) {
+        changeColorPalette(note);
+    }
+}
+
+function knobChanged(channel, note, velocity){
+    console.log(`KNOBS: channel ${channel}, note: ${note}, vel: ${velocity}`);
+    switch(note) {
+        case 1:
+            window.KNOB_1 = velocity;
+            break;
+        case 2:
+            window.KNOB_2 = velocity;
+            break;
+        case 3:
+            window.KNOB_3 = velocity;
+            break;
+        case 4:
+            window.KNOB_4 = velocity;
+            break;
+        case 5:
+            window.KNOB_5 = velocity;
+            break;
+        case 6:
+            window.KNOB_6 = velocity;
+            break;
+        case 7:
+            window.KNOB_7 = velocity;
+            break;
+        case 8:
+            window.KNOB_8 = velocity;
+            break;
+    }
+}
+
+function checkNoteOnOFF(type) {
+    switch (type) {
+        case TYPE_NOTE_ON: // noteOn message type (always 144 no matter what channel)
+            noteOn(channel, note, velocity);
+            break;
+        case TYPE_NOTE_OFF: //noteOff message type (always 128)
+            noteOff(channel, note, velocity);
+            break;
+    }
 }
 
 function noteOn(channel, note, velocity) {
-// if (channel !== 4) return
-// console.log(channel, note, velocity);
+    console.log(channel, note, velocity);
 
 }
 
 function noteOff(channel, note, velocity) {
+    console.log(channel, note, velocity);
 
 }
 
 function onMIDIFailure(e) {
-console.log('Could not access your MIDI devices: ', e)
+    console.log('Could not access your MIDI devices: ', e)
 }
