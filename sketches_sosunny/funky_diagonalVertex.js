@@ -12,6 +12,13 @@ let ypos = 0;
 let arr1 = [], arr2 = [];
 let strokeW = 1;
 
+window.KNOB_1 = 50; // nums
+window.KNOB_2 = 120; //speed
+window.KNOB_3 = 10; // pos x
+window.KNOB_4 = 10; // pos y
+window.KNOB_5 = 10; // stroke W
+window.KNOB_6 = 45;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   setupMidi();
@@ -20,13 +27,13 @@ function setup() {
   arr1 = getColors("https://coolors.co/3d348b-7678ed-f7b801-f18701-f35b04")
 	// https://coolors.co/dabfff-907ad6-798071-ffbe0b-fb5607
 	//https://coolors.co/dabfff-907ad6-D148F0-ffd166-06d6a0
-			// [color(218, 191, 255), color(144, 122, 214), color(79, 81, 140), color(44, 42, 74), color(218, 191, 255)];
-  arr2 = getColors("https://coolors.co/dabfff-4f518c-907ad6-2c2a4a-7fdeff")
- 
-  
-  colors.push(arr1, arr2,arr1, arr2, arr1, arr2, arr1, arr2, arr1, arr2, 
+	// [color(218, 191, 255), color(144, 122, 214), color(79, 81, 140), color(44, 42, 74), color(218, 191, 255)];
+	arr2 = getColors("https://coolors.co/dabfff-4f518c-907ad6-2c2a4a-7fdeff")
+	
+	
+	colors.push(arr1, arr2,arr1, arr2, arr1, arr2, arr1, arr2, arr1, arr2, 
 							arr1, arr2, arr1, arr2, arr1, arr2, arr1, arr2, arr1, arr2)
-  strokeWeight(strokeW);
+	strokeWeight(strokeW);
 	setupMidi();
 	angleMode(DEGREES);
 }
@@ -52,18 +59,18 @@ function draw() {
   heightNums = int(height/heightSize)+ 10
 	
   // MIDI ******* 
-  nums = Math.floor(map(window.KNOB_48, 0, 127, 1, 15));
-  speed = Math.floor(map(window.KNOB_49, 0, 127, 1, 30));
-  xpos = map(window.KNOB_50, 0, 127, -600, 600);
-  ypos = map(window.KNOB_51, 0, 127, -600, 600);
+  nums = Math.floor(map(window.KNOB_1, 0, 127, 1, 20));
+  speed = Math.floor(map(window.KNOB_2, 0, 127, 1, 30));
+  xpos = map(window.KNOB_3, 0, 127, -600, 600);
+  ypos = map(window.KNOB_4, 0, 127, -600, 600);
   arr1 = window.coolors; 
   arr2 = window.coolors2;
-  strokeW = map(window.KNOB_52, 0, 127, 0.5, 4);
+  strokeW = map(window.KNOB_5, 0, 127, 0.5, 4);
   strokeWeight(strokeW);
   
   // ROTATE
   translate(900 + xpos, -600 + ypos)
-  rotate(180/4)
+  rotate(KNOB_6*3/4)
 
   for(let i = 0; i < heightNums; i++) {
     if(i%2 == 0) {
@@ -133,9 +140,9 @@ function drawOneRow(topY, bottomY, slow, colorArr){
   endShape(CLOSE)
 
   // Draw rest number of Rectangles
-  // besides leftmost and rightmost
+  // besides leftmost and rightmost 
   for(let i = 0; i < nums+1; i++) {
-    stroke(colorArr[colorInd[i]])
+    stroke(colorArr[colorInd[i]])  // **** fill or stroke
     
     let index = i % changes.length // 0, 1, 2
     let nextIndex = (i+1) % changes.length    
@@ -166,7 +173,7 @@ function drawOneRow(topY, bottomY, slow, colorArr){
     pop()
 
     // VERTEX 3 (RIGHT BOTTOM)      
-    let rightBottomX = xSize * (i+2) + changes[nextIndex]  + xOffsets[nextIndex]
+    let rightBottomX = xSize * (i+2) + changes[nextIndex] + xOffsets[nextIndex]
     let v3 = {x: rightBottomX, y: bottomY}
     vertex(v3.x, v3.y)
 

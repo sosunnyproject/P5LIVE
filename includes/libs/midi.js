@@ -9,8 +9,8 @@ let col4 = createCols("https://coolors.co/palette/5465ff-788bff-9bb1ff-bfd7ff-e2
 let col5 = createCols("https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8-6f2dbd-a663cc-b298dc-b8d0eb-b9faf8");
 let col6 = createCols("https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93-ff595e-ffca3a-8ac926-1982c4-6a4c93");
 
-window.coolors = col2;
-window.coolors2 = col3;
+window.coolors = col1;
+window.coolors2 = col2;
 
 const CHANNEL_KEYBOARD = 1;
 const CHANNEL_PAD = 0;
