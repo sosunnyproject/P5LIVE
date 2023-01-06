@@ -1,13 +1,16 @@
 
-let col1 = createCols("https://coolors.co/palette/3d348b-7678ed-f7b801-f18701-f35b04");
-let col2 = createCols("https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a86ff");
-let col3 = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56"]
-let col4 = createCols("https://coolors.co/palette/5465ff-788bff-9bb1ff-bfd7ff-e2fdff");
-let col5 = createCols("https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8");
-let col6 = createCols("https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93");
+let col1 = createCols("https://coolors.co/palette/3d348b-7678ed-f7b801-f18701-f35b04-3d348b-7678ed-f7b801-f18701-f35b04");
+let col2 = createCols("https://coolors.co/palette/ff6d00-ff7900-ff8500-ff9100-ff9e00-ff6d00-ff7900-ff8500-ff9100-ff9e00")
+// createCols("https://coolors.co/palette/9fa0ff-ada7ff-bbadff-cbb2fe-dab6fc-ddbdfc-e0c3fc-9fa0ff-ada7ff-bbadff-cbb2fe-dab6fc-ddbdfc-e0c3fc");
+// createCols("https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a86ff");
+let col3 = createCols("https://coolors.co/palette/b100e8-bc00dd-d100d1-db00b6-e500a4-f20089-b100e8-bc00dd-d100d1-db00b6-e500a4-f20089"); 
+// ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56"]
+let col4 = createCols("https://coolors.co/palette/5465ff-788bff-9bb1ff-bfd7ff-e2fdff-5465ff-788bff-9bb1ff-bfd7ff-e2fdff");
+let col5 = createCols("https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8-6f2dbd-a663cc-b298dc-b8d0eb-b9faf8");
+let col6 = createCols("https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93-ff595e-ffca3a-8ac926-1982c4-6a4c93");
 
-window.coolors = col3;
-window.coolors2 = col1;
+window.coolors = col2;
+window.coolors2 = col3;
 
 const CHANNEL_KEYBOARD = 1;
 const CHANNEL_PAD = 0;
@@ -15,7 +18,7 @@ const MIDI_CLOCK = 248;
 const TYPE_NOTE_ON = 144;
 const TYPE_NOTE_OFF = 128;
 const TYPE_KNOB = 176;
-const NOTE1 = 36, NOTE2 = 37, NOTE3 = 38, NOTE4 = 39, NOTE5 = 40
+const NOTE1 = 36, NOTE2 = 37, NOTE3 = 38, NOTE4 = 39, NOTE5 = 40, NOTE6 = 41;
 
 function createCols(url)
 {
@@ -47,6 +50,10 @@ function changeColorPalette(note) {
         case NOTE5:
             window.coolors = col5;
 			window.coolors2 = col6;
+            break;
+        case NOTE6:
+            window.coolors = col6;
+            window.coolors2 = col1;
             break;
     }
 
@@ -155,7 +162,7 @@ function padPressed() {
 }
 
 function changeCoolor(note) {
-    if(NOTE5 >= note && note >= NOTE1) {
+    if(NOTE6 >= note && note >= NOTE1) {
         changeColorPalette(note);
     }
 }

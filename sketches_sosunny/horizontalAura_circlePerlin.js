@@ -9,13 +9,11 @@ let micVol;
 
 // window.SIN_0, SIN_8, SIN_16, : notes true or false;
 // window.KNOB_1 ... 8 : 0 ~ 127 velocity
-// window.coolors = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56", "#ff595e"];
-window.KNOB_4 = 10;
-window.KNOB_5 = 2;
-window.KNOB_3 = 10;
-window.KNOB_2 = 10;
+window.KNOB_5 = 2;  // strokeWeight
+window.KNOB_3 = 10; // radius size
+window.KNOB_2 = 10; // eddges
 window.KNOB_1 = 20;
-
+window.KNOB_4 = 4; // radius speed
 function setup() {
 	createCanvas(windowWidth, windowHeight)
 	setupMidi();
@@ -34,26 +32,29 @@ function setup() {
  
  
 function draw() {
-	background(0, 10);		//*** CHANGE
-	micVol = mic.getLevel()* 5; //*** CHANGE REACTIVE
+	background(0, 20);		//*** CHANGE
+	micVol = mic.getLevel()* 55; //*** CHANGE REACTIVE
 	  
 	let left = createVector(width/3-120, height/2);
 	let middle = createVector(width/2, height/2);
 	let right = createVector(width/3*2, height/2);
 	
-	let seg_num = window.KNOB_1;   // sharp or round edges
-    let inten_num = micVol + window.KNOB_2/10; // 울퉁불퉁
+	let seg_num = map(window.KNOB_1, 0, 127, -300, 200);   
+	// sharp or round edges
+    let inten_num = micVol + window.KNOB_2/10; 
+    // 울퉁불퉁
     let amp_num = micVol + window.KNOB_3/10;
-    strokeW1 = map(window.KNOB_5, 0, 127, 0.2, 10.0);
+    strokeW1 = map(window.KNOB_5, 0, 127, 0.8, 10.0);
 	// radius: sin, cos, tan
 	
-	let r_speed = 4;		//*** CHANGE
+	//*** CHANGE
+	let r_speed = map(window.KNOB_4, 0, 127, 0, 50);		
 	let r_base = sin(frameCount/r_speed);
 	if(window.SIN_0) r_base = sin(frameCount/(r_speed*4));
 	if(window.COS_0) r_base = cos(frameCount/(r_speed*2));
 	if(window.TAN_0) r_base = tan(frameCount*2);
 
-	radius = r_base*10 + window.KNOB_4;
+	radius = r_base*3 + window.KNOB_3;
 
 	let param1 = {
 		segments: 300 + seg_num,
@@ -79,7 +80,7 @@ function draw() {
 	noiseCircleVertex(param2);
 	
 	let param3 = {
-		segments: 800, 
+		segments: 600 + seg_num, 
 		intensity: inten_num,
 		amplitude: amp_num,
 		rotationSpeed: 10,
@@ -90,7 +91,7 @@ function draw() {
 	noiseCircleVertex(param3);
 	
 	let param4 = {
-		segments: 600, 
+		segments: 600 + seg_num, 
 		intensity: inten_num,
 		amplitude: amp_num,
 		rotationSpeed: 10,

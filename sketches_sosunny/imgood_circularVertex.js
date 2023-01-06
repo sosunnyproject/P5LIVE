@@ -11,6 +11,8 @@ let offset = 0.3;
 
 let strokeW = 1; // **** color ellipse thickness 
 let speedOffset = 40;
+window.KNOB_1 = 10;
+window.KNOB_2 = 10;
 
 function setup() {
   setupMidi();
@@ -20,7 +22,7 @@ function setup() {
   
   // match arr1, arr2 colors
 
-  colors.push(arr1, arr2)
+  colors.push(window.coolors, window.coolors2);
   // frameRate(40)
   // strokeWeight(0.25)
 
@@ -28,19 +30,25 @@ function setup() {
 
 function draw() {
   background(0, 50);
-
+  if(frameCount%100 == 0) {
+  	  colors=[window.coolors, window.coolors2];
+  }
   // r1 = sin(frameCount/30)*5 + r1
-  strokeW = map(window.KNOB_48, 0, 127, 1, 50);
-  speedOffset = map(window.KNOB_49, 0, 127, 0, 100);
+  strokeW = map(window.KNOB_1, 0, 127, 1, 100);
+  speedOffset = map(window.KNOB_2, 0, 127, 0, 100);
 
-  let speed1 = sin(frameCount/(100+speedOffset))*TWO_PI   // CHANGE 100 => 60 to faster
+   // CHANGE diviend 100 => lower num to be faster
+  let speed1 = sin(frameCount/(100+speedOffset))*TWO_PI
   let speed2 = cos(frameCount/(200+speedOffset))*TWO_PI
 
   translate(width/2, height/2)
   stroke(200)
-											          // ** CHANGE CIRCLE WHITE LINES
-  strokeWeight(1);
-  // strokeWeight(tan(frameCount/5)*strokeW*2)  	// ** CHANGE CIRCLE WHITE LINES --- 1
+
+  // ** CHANGE CIRCLE WHITE LINES
+  strokeWeight(4);
+  //strokeWeight(tan(frameCount/25)*strokeW*2)  	
+  // ** CHANGE CIRCLE WHITE LINES --- 1
+  
   noFill()
 
   for(let i = 0; i < 10; i++) {
@@ -60,23 +68,23 @@ function draw() {
     drawCircleSegments(speed + TWO_PI/10*i, r2, r2*1.5, colors[1][i])
   }
 
-  arc(0, 0, r2*2, r2*2, speed2 + TWO_PI/10*6, speed1 + TWO_PI/10*9)
-  arc(0, 0, r2*2, r2*2, speed2 + TWO_PI/10*2, speed1 + TWO_PI/10*5)
+ arc(0, 0, r2*2, r2*2, speed2 + TWO_PI/10*6, speed1 + TWO_PI/10*9)
+ arc(0, 0, r2*2, r2*2, speed2 + TWO_PI/10*2, speed1 + TWO_PI/10*5)
 
-  for(let i = 0; i < 6; i++) {
-    let speed = speed2
-    if(i % 2 === 0) speed = speed1
-    drawCircleSegments(speed + TWO_PI/6*i, r3, r3*1.25, colors[0][i])
-  }
+ for(let i = 0; i < 6; i++) {
+   let speed = speed2
+   if(i % 2 === 0) speed = speed1
+   drawCircleSegments(speed + TWO_PI/6*i, r3, r3*1.25, colors[0][i])
+ }
 
-  arc(0, 0, r3*2, r3*2, speed2+TWO_PI/6*3, speed2)
-  arc(0, 0, r3*2, r3*2, speed1+TWO_PI/6*6, speed1+ TWO_PI/6*3)
+ arc(0, 0, r3*2, r3*2, speed2+TWO_PI/6*3, speed2)
+ arc(0, 0, r3*2, r3*2, speed1+TWO_PI/6*6, speed1+ TWO_PI/6*3)
 
-  for(let i = 0; i < 6; i++) {
-    let speed = speed1
-    if(i % 2 === 0) speed = speed2
-    drawCircleSegments(speed + TWO_PI/6*i, r4, r4*1.25, colors[1][i])
-  } 
+ for(let i = 0; i < 6; i++) {
+   let speed = speed1
+   if(i % 2 === 0) speed = speed2
+   drawCircleSegments(speed + TWO_PI/6*i, r4, r4*1.25, colors[1][i])
+ } 
 
   //arc(0, 0, r4*2, r4*2, speed2 + TWO_PI/-6*3, speed1 + TWO_PI/6*6)
   //arc(0, 0, r4*1.25*2, r4*1.25*2, speed1 + TWO_PI/6*3, speed1 + TWO_PI/6*5)

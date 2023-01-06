@@ -15,17 +15,17 @@ let stackStep = 180 / stackCount;
 let radius = 20;
 let stackAngle, sectorAngle;
 
-window.KNOB_1 = 1; 
+window.KNOB_1 = 10; // angle
 window.KNOB_2 = 2; //speed rotateZ
-window.KNOB_3 = 2; // speed rotateY
-window.KNOB_4 = 1;
-window.KNOB_5 = 1;
-window.KNOB_6 = 1;
-window.KNOB_7 = 1;
-window.KNOB_8 = 1;
+window.KNOB_3 = 4; // speed rotateY
+window.KNOB_4 = 4; // numkey, change gap
+window.KNOB_5 = 1; // rotate cube
+window.KNOB_6 = 20; // cube size
+// window.KNOB_7 = 1;
+// window.KNOB_8 = 1;
 
 let numKey = 1;
-window.coolors = colors;
+// window.coolors = colors;
 let rotateCube = 10;
 let cubeSize = 4;
 
@@ -70,7 +70,7 @@ function draw() {
 	// *** MIDI
 	let knobAngle = window.KNOB_1/10 || 10; 
 	numKey = window.KNOB_4 ? Math.floor(map(window.KNOB_4, 0, 127, 1, 9)) : 1;   // *** DRAMATIC
-	rotateCube = Math.floor(map(window.KNOB_5, 0, 127, 5, 25));
+	rotateCube = Math.floor(map(window.KNOB_5, 0, 127, 5, 105));
 	cubeSize = Math.floor(map(window.KNOB_6, 0, 127, 2, 20));
 	// *** overall rotate
 	
@@ -80,7 +80,7 @@ function draw() {
 	for(let i = 0; i < cubes.length; i++) {
 		cubes[i].render();
 		cubes[i].rotate(knobAngle);
-		cubes[i].changeColors(window.coolors)   				// **** CHANGE MIDI COLORS
+		cubes[i].changeColors(window.coolors)	// **** CHANGE MIDI COLORS
 	}
 	pop();
 	
@@ -109,8 +109,8 @@ class Cube {
 	render() {
 	
 	// **CHANGE KNOB_3, 2 for SPEED.. tan, 30 => 10
-	 rotateY(cos(frameCount/window.KNOB_3)*(rotateCube*this.index));
-	 rotateZ(sin(frameCount/window.KNOB_2)*(rotateCube*this.index));
+	 rotateY(cos(frameCount/(window.KNOB_3*15))*(rotateCube*this.index));
+	 rotateZ(sin(frameCount/(window.KNOB_2*15))*(rotateCube*this.index));
     
 		push();
 		translate(this.pos.x*this.gap, this.pos.y*this.gap, this.pos.z*this.gap);
@@ -143,7 +143,7 @@ class Cube {
 function fadeToBlack() {
 	// translate(0, 0, 0);
 	rotateX(cos(frameCount/4)*100);
-	rotateY(sin(frameCount/4)*100);                  //*** CHANGE to TAN
+	rotateY(sin(frameCount/4)*100); //*** CHANGE to TAN
   // fill(250, 250, 230, 40);
 	fill(0, 10); 
 	beginShape();
