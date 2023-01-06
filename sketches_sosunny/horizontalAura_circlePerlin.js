@@ -9,7 +9,7 @@ let micVol;
 
 // window.SIN_0, SIN_8, SIN_16, : notes true or false;
 // window.KNOB_1 ... 8 : 0 ~ 127 velocity
-window.coolors = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56", "#ff595e"];
+// window.coolors = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56", "#ff595e"];
 window.KNOB_4 = 10;
 window.KNOB_5 = 2;
 window.KNOB_3 = 10;
@@ -34,8 +34,8 @@ function setup() {
  
  
 function draw() {
-	  background(0, 10);                               //*** CHANGE
-	  micVol = mic.getLevel()* 5;                     //*** CHANGE REACTIVE
+	background(0, 10);		//*** CHANGE
+	micVol = mic.getLevel()* 5; //*** CHANGE REACTIVE
 	  
 	let left = createVector(width/3-120, height/2);
 	let middle = createVector(width/2, height/2);
@@ -47,7 +47,7 @@ function draw() {
     strokeW1 = map(window.KNOB_5, 0, 127, 0.2, 10.0);
 	// radius: sin, cos, tan
 	
-	let r_speed = 12;                                //*** CHANGE
+	let r_speed = 4;		//*** CHANGE
 	let r_base = sin(frameCount/r_speed);
 	if(window.SIN_0) r_base = sin(frameCount/(r_speed*4));
 	if(window.COS_0) r_base = cos(frameCount/(r_speed*2));
@@ -69,36 +69,32 @@ function draw() {
 	
 	let param2 = {
 		segments: 400 + seg_num,  
-		intensity: inten_num,    					
-		// 위 param1의	intensity 값과 똑같이 쓰기
-		amplitude: amp_num, 				 
-		// 위 param1의 amplitude 값과 똑같이 쓰기
+		intensity: inten_num,
+		amplitude: amp_num, 
 		rotationSpeed: 40,
-		radius: radius + 40, 				
-		// 위 param1의 radius 값과 똑같이 쓰기
+		radius: radius + 40,
 		col: color(window.coolors[1]),  
-		strokeW: strokeW1       // 선 두께
+		strokeW: strokeW1
 	}
 	noiseCircleVertex(param2);
 	
 	let param3 = {
 		segments: 800, 
-		intensity: inten_num,    					
-		amplitude: amp_num, 				 
+		intensity: inten_num,
+		amplitude: amp_num,
 		rotationSpeed: 10,
 		radius: radius+60, 				
 		col: color(window.coolors[2]),  
 		strokeW: strokeW1          
-		// 선 두께
 	}
 	noiseCircleVertex(param3);
 	
 	let param4 = {
 		segments: 600, 
-		intensity: inten_num,    					
-		amplitude: amp_num, 				 
+		intensity: inten_num,
+		amplitude: amp_num,
 		rotationSpeed: 10,
-		radius: radius+100, 				
+		radius: radius+100,
 		col: color(window.coolors[3]),  
 		strokeW: strokeW1          
 	}
@@ -106,10 +102,10 @@ function draw() {
 	
 	let param5 = {
 		segments: 800, 
-		intensity: inten_num,    					
+		intensity: inten_num,
 		amplitude: amp_num,
 		rotationSpeed: 10,
-		radius: radius+120, 			 	
+		radius: radius+120, 
 		col: color(window.coolors[4]),
 		strokeW: strokeW1          
 	}
@@ -118,36 +114,34 @@ function draw() {
 	// 검정 원
 	let paramBlack = {
 		segments: 800, 
-		intensity: 1,    				
-		amplitude: 2.0, 				 
+		intensity: 1,  
+		amplitude: 2.0,
 		rotationSpeed: 100,
-		radius: radius+40, 			
-		col: color("#000000"),  // 검정색
-		strokeW: 2.0       // 선 두께
+		radius: radius+40,
+		col: color("#000000"),
+		strokeW: 2.0 
 	}
 	noiseCircleVertex(paramBlack); 
 	
-		// 검정 원
 	let paramBlack2 = {
 		segments: 800, 
-		intensity: 1,    				
-		amplitude: 2.0, 				 
+		intensity: 1,  
+		amplitude: 2.0,
 		rotationSpeed: 100,
-		radius: radius+80, 			
-		col: color("#000000"),  // 검정색
-		strokeW: 2.0       // 선 두께
+		radius: radius+80,
+		col: color("#000000"), 
+		strokeW: 2.0
 	}
 	noiseCircleVertex(paramBlack2);
 	
-	// 검정 원
 	let paramBlack3 = {
 		segments: 800, 
-		intensity: 1,    				
-		amplitude: 2.0, 				 
+		intensity: 1,   
+		amplitude: 2.0, 
 		rotationSpeed: 100,
-		radius: radius+140, 			
-		col: color("#000000"),  // 검정색
-		strokeW: 2.0       // 선 두께
+		radius: radius+140,
+		col: color("#000000"),
+		strokeW: 2.0
 	}
 	noiseCircleVertex(paramBlack3);
 
@@ -158,7 +152,7 @@ function draw() {
     	xGap: 2, 
     	xOffset: 0.2, 
     	strokeW: 0.5, 
-    	col: color("#cdb4db")
+    	col: color(window.coolors[0])
     }
 	// perlinVertex(lineParam1);
 	
@@ -181,10 +175,10 @@ function draw() {
 }
 
 function customFilter() {
-		drawingContext.shadowColor = "#222222";
-		drawingContext.shadowOffsetX = -5;
-		drawingContext.shadowOffsetY = 5;
-		drawingContext.shadowBlur = 10;
+	drawingContext.shadowColor = "#222222";
+	drawingContext.shadowOffsetX = -5;
+	drawingContext.shadowOffsetY = 5;
+	drawingContext.shadowBlur = 10;
 }
 function noiseCircleVertex(params) {
 	const {
@@ -238,13 +232,13 @@ function perlinVertex(params){
 		else strokeWeight(0.4);
 	
 		if(col) stroke(col);
-	  else stroke(51, 140, 152 + extra + endY/20);
+		else stroke(51, 140, 152 + extra + endY/20);
 	
 		for (let x = -100; x < width+100; x += xGap) {
-				let y = map(noise(xoff, yoff), 0, 1, startY, endY);
-				vertex(x, y);
-				xoff += xOffset;
-			}
+			let y = map(noise(xoff, yoff), 0, 1, startY, endY);
+			vertex(x, y);
+			xoff += xOffset;
+		}
 		vertex(width+100, height+40); 
 		vertex(-30, height+30); 
 		endShape(CLOSE);
