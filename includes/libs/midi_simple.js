@@ -1,16 +1,10 @@
+let coolors1 = ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56"]
+let coolors2 = ["#525b76", "#ffcad4", "#b0d0d3", "#c08497", "#f7af9d"];
+let coolors3 = ["#70d6ff", "#ff70a6", "#ff9770", "#ffd670", "#e9ff70"];
+let coolors4 = ["#27187e", "#758bfd", "#aeb8fe", "#f1f2f6", "#ff8600"];
 
-let col1 = createCols("https://coolors.co/palette/3d348b-7678ed-f7b801-f18701-f35b04-3d348b-7678ed-f7b801-f18701-f35b04");
-let col2 = createCols("https://coolors.co/palette/ff6d00-ff7900-ff8500-ff9100-ff9e00-ff6d00-ff7900-ff8500-ff9100-ff9e00")
-// createCols("https://coolors.co/palette/9fa0ff-ada7ff-bbadff-cbb2fe-dab6fc-ddbdfc-e0c3fc-9fa0ff-ada7ff-bbadff-cbb2fe-dab6fc-ddbdfc-e0c3fc");
-// createCols("https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a86ff");
-let col3 = createCols("https://coolors.co/palette/b100e8-bc00dd-d100d1-db00b6-e500a4-f20089-b100e8-bc00dd-d100d1-db00b6-e500a4-f20089"); 
-// ["#006ba6", "#0496ff", "#ffbc42", "#d81159", "#8f2d56"]
-let col4 = createCols("https://coolors.co/palette/5465ff-788bff-9bb1ff-bfd7ff-e2fdff-5465ff-788bff-9bb1ff-bfd7ff-e2fdff");
-let col5 = createCols("https://coolors.co/palette/6f2dbd-a663cc-b298dc-b8d0eb-b9faf8-6f2dbd-a663cc-b298dc-b8d0eb-b9faf8");
-let col6 = createCols("https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93-ff595e-ffca3a-8ac926-1982c4-6a4c93");
-
-window.coolors = col1;
-window.coolors2 = col2;
+window.colors1 = coolors1;
+window.colors2 = coolors2;
 
 const CHANNEL_KEYBOARD = 1;
 const CHANNEL_PAD = 0;
@@ -20,45 +14,8 @@ const TYPE_NOTE_OFF = 128;
 const TYPE_KNOB = 176;
 const NOTE1 = 36, NOTE2 = 37, NOTE3 = 38, NOTE4 = 39, NOTE5 = 40, NOTE6 = 41;
 
-function createCols(url)
-{
-	let slaIndex = url.lastIndexOf("/");
-	let colStr = url.slice(slaIndex + 1);
-	let colArr = colStr.split("-");
-	for(let i = 0; i < colArr.length; i++)colArr[i] = "#" + colArr[i];
-	return colArr;
-}
-
-function changeColorPalette(note) {
-    switch(note){
-        case NOTE1:
-            window.coolors = col1;
-			window.coolors2 = col2;
-            break;
-        case NOTE2:
-            window.coolors = col2;
-			window.coolors2 = col3;
-            break;
-        case NOTE3:
-            window.coolors = col3;
-			window.coolors2 = col4;
-            break;
-        case NOTE4:
-            window.coolors = col4;
-			window.coolors2 = col5;
-            break;
-        case NOTE5:
-            window.coolors = col5;
-			window.coolors2 = col6;
-            break;
-        case NOTE6:
-            window.coolors = col6;
-            window.coolors2 = col1;
-            break;
-    }
-}
-
 // 미디 연결
+// always call setupMidi() in your sketch
 function setupMidi() {
     if (navigator.requestMIDIAccess) console.log('이 브라우저는 WebMIDI를 지원합니다!')
     else console.log('WebMIDI가 실행되지 않습니다.')
@@ -90,18 +47,13 @@ function onMIDIMessage(message) {
 
             } else if(channel === CHANNEL_PAD) { 
                 padPressed(channel, note, velocity);
-                changeCoolor(note);
+                changeColors(note);
             }
         } else if(type === TYPE_KNOB) {
             knobChanged(channel, note, velocity);
         }
     }
 }
-
-function keyboardPressed() {
-    console.log(`KEYBOARD: channel ${channel}, note: ${note}, vel: ${velocity}`);
-}
-
 // AKAI Laptop Pad Controller 8
 // PAD5.NOTE40  PAD6.NOTE41  PAD7.NOTE42  PAD8.NOTE43
 // PAD1.NOTE36  PAD2.NOTE37  PAD3.NOTE38  PAD4.NOTE39
@@ -109,63 +61,28 @@ function padPressed() {
     console.log(`PAD: channel: ${channel}, note: ${note}, vel: ${velocity}`);
     switch(note) {
         case 0:
-            window.SIN_0 = true;
-            window.COS_0 = false;
-            window.TAN_0 = false;
             break;
         case 1:
-            window.SIN_0 = false;
-            window.COS_0 = true;
-            window.TAN_0 = false;
             break;
         case 2:
-            window.SIN_0 = false;
-            window.COS_0 = false;
-            window.TAN_0 = true;
             break;
-        
-        // SIN_8, COS_8, TAN_8
         case 8:
-            window.SIN_8 = true;
-            window.COS_8 = false;
-            window.TAN_8 = false;
             break;
         case 9:
-            window.SIN_8 = false;
-            window.COS_8 = true;
-            window.TAN_8 = false;
             break;
         case 10:
-            window.SIN_8 = false;
-            window.COS_8 = false;
-            window.TAN_8 = true;
             break;
-        
-        // 3rd line: 16
         case 16:
-            window.SIN_16 = true;
-            window.COS_16 = false;
-            window.TAN_16 = false;
             break;
         case 17:
-            window.SIN_16 = false;
-            window.COS_16 = true;
-            window.TAN_16 = false;
             break;
         case 18:
-            window.SIN_16 = false;
-            window.COS_16 = false;
-            window.TAN_16 = true;
             break;
     }
 }
-
-function changeCoolor(note) {
-    if(NOTE6 >= note && note >= NOTE1) {
-        changeColorPalette(note);
-    }
+function keyboardPressed() {
+    console.log(`KEYBOARD: channel ${channel}, note: ${note}, vel: ${velocity}`);
 }
-
 function knobChanged(channel, note, velocity){
     console.log(`KNOBS: channel ${channel}, note: ${note}, vel: ${velocity}`);
     switch(note) {
@@ -195,7 +112,27 @@ function knobChanged(channel, note, velocity){
             break;
     }
 }
-
+function changeCoolor(note) {
+    if(NOTE6 >= note && note >= NOTE1) {
+        changeColors(note);
+    }
+}
+function changeColors(note) {
+    switch(note){
+        case NOTE1:
+            window.colors1 = col1;
+            break;
+        case NOTE2:
+            window.colors1 = col2;
+            break;
+        case NOTE3:
+            window.colors1 = col3;
+            break;
+        case NOTE4:
+            window.colors1 = col4;
+            break;
+    }
+}
 function checkNoteOnOFF(type) {
     switch (type) {
         case TYPE_NOTE_ON: // noteOn message type (always 144 no matter what channel)
