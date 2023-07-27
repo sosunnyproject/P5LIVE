@@ -2,7 +2,7 @@
 // You can also use Mouse to rotate the sphere and black fadeout plane. 
 // inspiration: three body problem (sf novel), the concept of constantly disappearing and evoloving planets in the outerspace 
 
-let libs = [ 'includes/libs/midi.js'];
+let libs = [ 'includes/libs/midi_update.js'];
 
 let ambientBrightness = 100;
 let cubes = [];

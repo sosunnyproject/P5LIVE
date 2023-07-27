@@ -4,7 +4,7 @@ let debugStats = false; // report stats
 let developBranch = false; // dev mode (false for production)
 
 // custom port
-let tPort = process.env.PORT || 5000;
+let tPort = process.env.PORT || 8080;
 for(let arg of process.argv){
 	if(!isNaN(arg)){
 		tPort = arg;

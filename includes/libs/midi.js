@@ -1,5 +1,5 @@
 
-let col1 = createCols("https://coolors.co/palette/3d348b-7678ed-f7b801-f18701-f35b04-3d348b-7678ed-f7b801-f18701-f35b04");
+let col1 = createCols("https://coolors.co/palette/f72585-7209b7-3a0ca3-4361ee-4cc9f0");
 let col2 = createCols("https://coolors.co/palette/ff6d00-ff7900-ff8500-ff9100-ff9e00-ff6d00-ff7900-ff8500-ff9100-ff9e00")
 // createCols("https://coolors.co/palette/9fa0ff-ada7ff-bbadff-cbb2fe-dab6fc-ddbdfc-e0c3fc-9fa0ff-ada7ff-bbadff-cbb2fe-dab6fc-ddbdfc-e0c3fc");
 // createCols("https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a86ff");
@@ -105,7 +105,7 @@ function keyboardPressed() {
 // AKAI Laptop Pad Controller 8
 // PAD5.NOTE40  PAD6.NOTE41  PAD7.NOTE42  PAD8.NOTE43
 // PAD1.NOTE36  PAD2.NOTE37  PAD3.NOTE38  PAD4.NOTE39
-function padPressed() {
+function padPressed(note) {
     console.log(`PAD: channel: ${channel}, note: ${note}, vel: ${velocity}`);
     switch(note) {
         case 0:
@@ -169,28 +169,28 @@ function changeCoolor(note) {
 function knobChanged(channel, note, velocity){
     console.log(`KNOBS: channel ${channel}, note: ${note}, vel: ${velocity}`);
     switch(note) {
-        case 1:
+        case 70:
             window.KNOB_1 = velocity;
             break;
-        case 2:
+        case 71:
             window.KNOB_2 = velocity;
             break;
-        case 3:
+        case 72:
             window.KNOB_3 = velocity;
             break;
-        case 4:
+        case 73:
             window.KNOB_4 = velocity;
             break;
-        case 5:
+        case 74:
             window.KNOB_5 = velocity;
             break;
-        case 6:
+        case 75:
             window.KNOB_6 = velocity;
             break;
-        case 7:
+        case 76:
             window.KNOB_7 = velocity;
             break;
-        case 8:
+        case 77:
             window.KNOB_8 = velocity;
             break;
     }
